@@ -1,26 +1,48 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <component :is="currentViewComponent" @switch-view="switchView" />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import RoutesView from './components/RoutesView.vue';
+import PassengerFlowView from './components/PassengerFlowView.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    RoutesView,
+    PassengerFlowView,
+  },
+  data() {
+    return {
+      currentView: 'routes', // 默认显示RoutesView
+    };
+  },
+  computed: {
+    currentViewComponent() {
+      // 根据currentView动态返回组件
+      return this.currentView === 'routes' ? 'RoutesView' : 'PassengerFlowView';
+    },
+  },
+  methods: {
+    switchView(view) {
+      // 切换视图方法
+      this.currentView = view;
+    },
+  },
+};
 </script>
 
 <style>
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
 }
 </style>
